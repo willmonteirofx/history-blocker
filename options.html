@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #1e3a8a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 500px;
+      padding: 40px;
+    }
+    
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 8px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    
+    .subtitle {
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* PIN Screen Styles */
+    .pin-screen {
+      display: none;
+    }
+    
+    .pin-screen.active {
+      display: block;
+    }
+    
+    .pin-form {
+      margin-bottom: 20px;
+    }
+    
+    .pin-input-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #1e293b;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+    
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #3b82f6;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .pin-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 12px 20px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background: #64748b;
+    }
+    
+    .btn-secondary:hover {
+      background: #475569;
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+    }
+    
+    .error-message {
+      color: #ef4444;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+      font-weight: 500;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
+    /* Settings Screen Styles */
+    .settings-screen {
+      display: none;
+    }
+    
+    .settings-screen.active {
+      display: block;
+    }
+    
+    .keyword-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    #keywordInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #f8fafc;
+    }
+    
+    #addBtn {
+      padding: 12px 24px;
+      white-space: nowrap;
+      background: #3b82f6;
+    }
+    
+    #addBtn:hover {
+      background: #2563eb;
+    }
+    
+    .keyword-list-controls {
+      display: none;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: flex-end;
+    }
+    
+    .keyword-list-controls.visible {
+      display: flex;
+    }
+    
+    .keyword-list-controls button {
+      padding: 8px 16px;
+      font-size: 14px;
+      flex: 0 0 auto;
+    }
+    
+    .keyword-list {
+      margin-top: 20px;
+    }
+    
+    .keyword-item-content {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    
+    .keyword-item-content span {
+      color: #1e293b;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    .keyword-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .eye-icon {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .eye-icon:hover {
+      color: #3b82f6;
+    }
+    
+    .eye-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .keyword-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #f1f5f9;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s;
+    }
+    
+    .keyword-item:hover {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+    
+    .remove-btn {
+      background: #ef4444;
+      padding: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .remove-btn:hover {
+      background: #dc2626;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .remove-btn:active {
+      transform: translateY(0);
+    }
+    
+    .remove-btn svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #64748b;
+      font-style: italic;
+      padding: 30px 20px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Configurações</h1>
+    <p class="subtitle">Gerenciar palavras bloqueadas</p>
+    
+    <!-- PIN Screen -->
+    <div id="pinScreen" class="pin-screen">
+      <div class="pin-form">
+        <div class="pin-input-group">
+          <label id="pinLabel" for="pinInput">Digite o PIN:</label>
+          <input type="password" id="pinInput" placeholder="Digite seu PIN" maxlength="10">
+        </div>
+        <div class="pin-buttons">
+          <button id="submitPinBtn">Confirmar</button>
+          <button id="cancelPinBtn" class="btn-secondary">Cancelar</button>
+        </div>
+        <div id="pinError" class="error-message">PIN incorreto!</div>
+      </div>
+    </div>
+    
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="settings-screen">
+      <div class="keyword-input">
+        <input type="text" id="keywordInput" placeholder="Digite uma palavra...">
+        <button id="addBtn">Adicionar</button>
+      </div>
+      
+      <div class="keyword-list-controls">
+        <button id="showAllBtn" class="btn-secondary">Mostrar Todos</button>
+        <button id="hideAllBtn" class="btn-secondary">Ocultar Todos</button>
+      </div>
+      
+      <div class="keyword-list" id="keywordList">
+        <!-- Keywords will be displayed here -->
+      </div>
+    </div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>
