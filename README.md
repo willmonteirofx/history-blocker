@@ -2,6 +2,10 @@
 
 Extensão do Chrome que impede o navegador de salvar histórico para sites contendo palavras-chave específicas na URL ou título.
 
+![Screenshot 1](Screenshot_1.png)
+
+![Screenshot 2](Screenshot_2.png)
+
 ## Funcionalidades
 
 - Bloqueia automaticamente histórico para sites com palavras-chave especificadas
